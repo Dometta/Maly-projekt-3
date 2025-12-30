@@ -106,27 +106,11 @@ def download_all(years):
 
     return data
 
-
-
-# Wspólne stacje
-def get_common_stations(data):
-    dfs = list(data.values())
-    common = dfs[0].columns
-
-    for df in dfs[1:]:
-        common = common.intersection(df.columns)
-
-    return common
-
-
-
 # MultiIndex (Kod stacji, Miejscowość)
 def make_multi_index(metadane, common_stations):
     filtered = metadane[metadane['Kod stacji'].isin(common_stations)]
-    filtered_unique = filtered.drop_duplicates(subset=['Kod stacji'])
-
     mapping_dict = dict(
-        zip(filtered_unique['Kod stacji'], filtered_unique['Miejscowość'])
+        zip(filtered['Kod stacji'], filtered['Miejscowość'])
     )
 
     station_city = [
@@ -139,22 +123,17 @@ def make_multi_index(metadane, common_stations):
         names=['Kod stacji', 'Miejscowość']
     )
 
-
-
 # Finalne dane do analizy
 def prepare_common_data(years):
     metadane = download_metadata()
     data = download_all(years)
 
-    common_stations = get_common_stations(data)
-    multi_index = make_multi_index(metadane, common_stations)
-
-    dfs_common = []
+    dfs=[]
     for year in years:
-        df = data[year][common_stations]
-        df.columns = multi_index
-        dfs_common.append(df)
+        dfs.append(data[year])
+    df_all = pd.concat(dfs,join="inner")
+    multi_index = make_multi_index(metadane, df_all.columns)
+    df_all.columns=multi_index
 
-    return pd.concat(dfs_common)
-
+    return df_all
   
