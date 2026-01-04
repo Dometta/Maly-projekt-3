@@ -63,7 +63,7 @@ def heatmap(df, years):
     cities = list(matrix_dict.keys())
     n_cities = len(cities)
     
-    # układ siatki (np. 4 × 5 = 20)
+    # układ siatki
     ncols = 5
     nrows = math.ceil(n_cities / ncols)
     
