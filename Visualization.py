@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from matplotlib.colors import LinearSegmentedColormap
 import math
+import seaborn as sns
 
 def mean_pm25_plot(df,years):
     # Wybieram odpowiednie miasta
@@ -117,4 +118,42 @@ def heatmap(df, years):
         fontsize=16
     )
     
+    plt.show()
+
+def grouped_barplot(df):
+    # Filtrujemy tylko 2024
+    df2024 = df.loc[2024]
+    
+    # 3 stacje z najmniejszą liczbą dni
+    bottom3 = df2024.nsmallest(3)
+    
+    # 3 stacje z największą liczbą dni
+    top3 = df2024.nlargest(3)
+    
+    # Lista interesujących stacji
+    stations_of_interest = bottom3.index.tolist() + top3.index.tolist()
+    
+    # Wybieramy tylko interesujące stacje 
+    df_plot = df[stations_of_interest]
+    
+    df_plot_flat = df_plot.copy()
+    df_plot_flat.columns = [f"{kod}_{miasto}" for kod, miasto in df_plot_flat.columns]
+    
+    df_plot_reset = df_plot_flat.reset_index()  # teraz 'Rok' jest kolumną
+    
+    # Przekształcenie formatu
+    df_plot_long = df_plot_reset.melt(id_vars='Rok', var_name='station', value_name='days_exceeded')
+
+    sns.set_style("whitegrid")
+    plt.figure(figsize=(10,6))
+    
+    sns.barplot(data=df_plot_long, x='station', y='days_exceeded', hue='Rok')
+    
+    plt.xlabel('Station')
+    plt.ylabel('Number of days exceeded')
+    plt.title('Dni przekraczające normę dzienną według stacji i roku')
+    plt.xticks(rotation=45)
+    plt.legend(title='Year')
+    
+    plt.tight_layout()
     plt.show()
