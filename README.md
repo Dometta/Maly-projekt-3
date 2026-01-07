@@ -33,5 +33,33 @@ Visualization.py zawiera:
 - funkcję heatmap(df, years) ; Tworzy heatmapy średnich miesięcznych dla wszytskich miast w zbiorze danych, dla danych lat.
 - funkcję grouped_barplot(df) ; Tworzy zgrupowany wykres słupkowy dla 6 stacji o ekstremalnych wynikach (3 najlepszych i 3 najgorszych) dla roku 2024 .
 
-    
+### Testy 
+Znajdują się w folderze tests
+
+DownloadClean_test.py zawiera:
+- funkcję test_clean_data_2015(), test_clean_data_2018(), test_clean_data_2021() ; Testują czy dla poszczególnych lat dobrze usuwane są niepotrzebne wartości.
+- funkcję test_clean_data_midnight_shift() ; testuje czy dobrze zachodzi shiftowanie danych o północy.
+- funkcję test_map_station_codes() ; test czy kody stacji odpowiednio się mapują.
+- funkcję test_make_multi_index() ; test czy poprawnie tworzony jest multiindex.
+- funkcję test_make_multi_index_unknown_city() ; test czy multiindex poprawnie się tworzy dla nieznanej miejscowości
+
+Analysis_test.py zawiera:
+- funkcję test_monthly_mean() ; testuje czy dobrze obliczane są średnie miesięczne.
+- funkcję test_daily_mean() ; testuje czy dobrze obliczane są średnie dobowe.
+- funkcję test_days_above_norm() ; testuje czy dobrze zliczane są dni w których norma została przekroczona.
+
+Visualization_test.py zawiera: (utylizowany jest monkeypatch aby nie wyświetlać wykresów - wyłącznie sprawdzić czy funkcje w Visualization_py działają)
+
+- funkcję test_mean_pm25_plot(monkeypatch) ; testuje czy poprawnie tworzy się wykres liniowy.
+- funkcję test_heatmap(monkeypatch) ; testuje czy poprawnie tworzą się heatmapy.
+- funkcję test_grouped_barplot_runs(monkeypatch) ; testuje czy poprawnie tworzy się barplot.
+
+### Pozostałe pliki
+
+- projekt_1_student.ipynb - oryginalny notatnik z małego projektu 1 z niepoprawionym kodem.
+- projekt_3.ipynb - notatnik który dzięki funkcjom z plików .py, zawierającym poprawiony kod, wykonuje po kolei zadania małego projektu 1.
+- metdane_new.xlsx - plik z metadanymi.
+
+
+
     
